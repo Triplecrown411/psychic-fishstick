@@ -1,0 +1,4 @@
+*.rb linguist-language=Java
+special-vendored-path/* linguist-vendored
+project-docs/* linguist-documentation
+
