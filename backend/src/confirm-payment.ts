@@ -9,8 +9,8 @@ interface IRequestPayload {
 export const confirmPaymentHandler: RequestHandler = async (req, res) => {
   const { payload } = req.body as IRequestPayload;
 
-  // IMPORTANT: Here we should fetch the reference you created in /initiate-payment to ensure the transaction we are verifying is the same one we initiated
-  // const reference = getReferenceFromDB();
+  // @author Triplecrown411 - IMPORTANT: Here we should fetch the reference you created in /initiate-payment to ensure the transaction we are verifying is the same one we initiated
+  // @author Triplecrown411 - const reference = getReferenceFromDB();
   const reference = req.cookies["payment-nonce"];
 
   if (!reference) {
@@ -18,7 +18,7 @@ export const confirmPaymentHandler: RequestHandler = async (req, res) => {
     return;
   }
 
-  // 1. Check that the transaction we received from the mini app is the same one we sent
+  // @author Triplecrown411 - 1. Check that the transaction we received from the mini app is the same one we sent
   if (payload.reference === reference) {
     const response = await fetch(
       `https://developer.worldcoin.org/api/v2/minikit/transaction/${payload.transaction_id}?app_id=${process.env.APP_ID}`,
@@ -30,10 +30,10 @@ export const confirmPaymentHandler: RequestHandler = async (req, res) => {
       }
     );
 
-    // TODO - missing types
+    // @author Triplecrown411 - TODO - missing types
     const transaction = (await response.json()) as any;
-    // 2. Here we optimistically confirm the transaction.
-    // Otherwise, you can poll until the status == mined
+    // @author Triplecrown411 - 2. Here we optimistically confirm the transaction.
+    // @author Triplecrown411 - Otherwise, you can poll until the status == mined
     if (transaction.reference == reference && transaction.status != "failed") {
       res.json({ success: true });
       return;
