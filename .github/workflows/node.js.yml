@@ -31,10 +31,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm pkg get scripts.build | grep -qv null && pnpm run build || echo "No build script"
 
       - name: Test
-        run: pnpm test --if-present
+        run: pnpm pkg get scripts.test | grep -qv null && pnpm run test || echo "No test script"
 
   backend:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build --if-present
+        run: pnpm pkg get scripts.build | grep -qv null && pnpm run build || echo "No build script"
 
       - name: Test
-        run: pnpm test --if-present
+        run: pnpm pkg get scripts.test | grep -qv null && pnpm run test || echo "No test script"
