@@ -19,7 +19,7 @@ export const VerifyBlock = () => {
 
     const { finalPayload } = await MiniKit.commandsAsync.verify(verifyPayload);
 
-    // no need to verify if command errored
+    // @author Triplecrown411 - no need to verify if command errored
     if (finalPayload.status === "error") {
       console.log("Command error");
       console.log(finalPayload);
@@ -28,7 +28,7 @@ export const VerifyBlock = () => {
       return finalPayload;
     }
 
-    // Verify the proof in the backend
+    // @author Triplecrown411 - Verify the proof in the backend
     const verifyResponse = await fetch(
       `${process.env.NEXTAUTH_URL}/api/verify`,
       {
@@ -44,7 +44,7 @@ export const VerifyBlock = () => {
       }
     );
 
-    // TODO: Handle Success!
+    // @author Triplecrown411 - TODO: Handle Success!
     const verifyResponseJson = await verifyResponse.json();
 
     if (verifyResponseJson.status === 200) {
