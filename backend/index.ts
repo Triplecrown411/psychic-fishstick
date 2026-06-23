@@ -10,8 +10,9 @@ const app = express();
 // trust the proxy to allow HTTPS protocol to be detected
 // https://expressjs.com/en/guide/behind-proxies.html
 app.set("trust proxy", true);
-// allow cors
-app.use(cors());
+// allow cors – restrict to configured origin in production
+const allowedOrigin = process.env.ALLOWED_ORIGIN ?? "*";
+app.use(cors({ origin: allowedOrigin }));
 // json middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
